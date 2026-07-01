@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'DotGothic16', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    user-select: none;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+}
+
+/* モンスターエリア */
+#monster-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#monster-sprite {
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.15s ease-in-out, background-color 0.1s;
+}
+
+#monster-sprite.wind-up {
+    transform: translateY(-20px) scale(0.95);
+}
+
+#monster-sprite.wind-up .monster-eye {
+    height: 5px;
+}
+
+#monster-sprite.attacking {
+    transform: scale(1.1) translateY(20px);
+    background-color: #ffcccc;
+}
+
+.monster-eye {
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    position: absolute;
+    top: 20px;
+    transition: all 0.1s;
+}
+.monster-eye.left { left: 20px; }
+.monster-eye.right { right: 20px; }
+
+#monster-sprite.attacking .monster-eye {
+    height: 5px;
+    top: 25px;
+}
+
+.monster-mouth {
+    width: 60px;
+    height: 10px;
+    background-color: #000;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    transition: all 0.1s;
+}
+
+#monster-sprite.attacking .monster-mouth {
+    height: 30px;
+    border-radius: 50%;
+    bottom: 10px;
+}
+
+#monster-hp-bar-container {
+    width: 200px;
+    height: 15px;
+    background-color: #555;
+    margin-bottom: 15px;
+    border: 2px solid #fff;
+}
+
+#monster-hp-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #00ff00;
+    transition: width 0.3s;
+}
+
+#warning-mark {
+    position: absolute;
+    top: 5px; /* モンスターの少し上に調整 */
+    z-index: 100;
+    font-size: 3rem;
+    color: red;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #fff;
+    animation: bounce 0.3s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
+
+#warning-mark.hidden {
+    display: none;
+}
+
+#monster-name {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
+
+/* バトルコンテナ (キャンバス) */
+#battle-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+canvas {
+    display: block;
+    background-color: #000;
+}
+
+#status-text {
+    position: absolute;
+    top: 20px;
+    left: 120px; /* キャンバス内の描画ボックス付近に配置 */
+    font-size: 1.2rem;
+    display: none;
+    pointer-events: none;
+}
+
+/* ゲームオーバー・クリア画面 */
+#game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#game-over h2 {
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+}
+#game-over p {
+    margin: 0;
+    color: #aaa;
+}
+
+#game-over.hidden {
+    display: none;
+}
+
+/* UIエリア */
+#ui-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#player-stats {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+#player-hp-bar-container {
+    width: 100px;
+    height: 20px;
+    background-color: #555;
+    border: 2px solid #fff;
+}
+
+#player-hp-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #ffff00;
+    transition: width 0.2s;
+}
+
+/* コマンド */
+#command-area {
+    display: flex;
+    gap: 20px;
+}
+
+#attack-prompt {
+    color: #ff9900;
+    font-size: 1.5rem;
+    font-family: 'DotGothic16', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+#attack-prompt.hidden {
+    display: none;
+}
+
+.instructions {
+    margin-top: 30px;
+    color: #666;
+    font-size: 0.9rem;
+}

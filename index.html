@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ターン制 弾除けゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- モンスター表示エリア -->
+        <div id="monster-area">
+            <div id="monster-hp-bar-container">
+                <div id="monster-hp-bar"></div>
+            </div>
+            <div id="warning-mark" class="hidden">!</div>
+            <div id="monster-sprite">
+                <div class="monster-eye left"></div>
+                <div class="monster-eye right"></div>
+                <div class="monster-mouth"></div>
+            </div>
+            <h2 id="monster-name">MONSTER</h2>
+        </div>
+
+        <!-- 弾除け用キャンバス -->
+        <div id="battle-container">
+            <div id="status-text"></div>
+            <!-- キャンバス全体。この中に白枠を描画する -->
+            <canvas id="gameCanvas" width="600" height="400"></canvas>
+            
+            <div id="game-over" class="hidden">
+                <h2 id="end-message">GAME OVER</h2>
+                <p>Press SPACE to restart</p>
+            </div>
+        </div>
+
+        <!-- UIエリア (HPとコマンド) -->
+        <div id="ui-area">
+            <div id="player-stats">
+                <span>LV 1</span>
+                <span>HP</span>
+                <div id="player-hp-bar-container">
+                    <div id="player-hp-bar"></div>
+                </div>
+                <span id="player-hp-text">20 / 20</span>
+            </div>
+            <div id="command-area">
+                <span id="attack-prompt" class="hidden">
+                    <span class="heart-icon">❤️</span> たたかう (Enterキー)
+                </span>
+            </div>
+        </div>
+
+        <p class="instructions">移動: 矢印キー または W A S D <br> 攻撃: Enter</p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
