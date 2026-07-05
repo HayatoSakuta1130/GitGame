@@ -1,58 +1,63 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ターン制 弾除けゲーム</title>
+    <title>ハート避けゲーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="game-container">
-        <!-- モンスター表示エリア -->
+        
         <div id="monster-area">
+            <div id="monster-sprite" class="composite-monster">
+                <img class="monster-part m-fire" src="Boss_Machine/boss_BottomFire.png" alt="fire">
+                <img class="monster-part m-bottom" src="Boss_Machine/boss_Bottom.png" alt="bottom">
+                <img class="monster-part m-arm-right" src="Boss_Machine/boss_RightHand.png" alt="right arm">
+                <img class="monster-part m-arm-left" src="Boss_Machine/boss_LeftHand.png" alt="left arm">
+                <img class="monster-part m-body" src="Boss_Machine/boss_Body.png" alt="body">
+                <img class="monster-part m-head" src="Boss_Machine/boss_Head.png" alt="head">
+            </div>
+            
             <div id="monster-hp-bar-container">
                 <div id="monster-hp-bar"></div>
             </div>
-            <div id="warning-mark" class="hidden">!</div>
-            <div id="monster-sprite">
-                <div class="monster-eye left"></div>
-                <div class="monster-eye right"></div>
-                <div class="monster-mouth"></div>
-            </div>
-            <h2 id="monster-name">MONSTER</h2>
         </div>
 
-        <!-- 弾除け用キャンバス -->
         <div id="battle-container">
-            <div id="status-text"></div>
-            <!-- キャンバス全体。この中に白枠を描画する -->
             <canvas id="gameCanvas" width="600" height="400"></canvas>
             
+            <div id="status-text" class="hidden"></div>
+            
             <div id="game-over" class="hidden">
-                <h2 id="end-message">GAME OVER</h2>
-                <p>Press SPACE to restart</p>
+                <h2 id="game-over-text">GAME OVER</h2>
+                <p>Spaceキーを押してリトライ</p>
             </div>
+            
+            <div id="warning-mark" class="hidden">!</div>
+            <div id="blue-warning-mark" class="hidden">!</div>
         </div>
 
-        <!-- UIエリア (HPとコマンド) -->
         <div id="ui-area">
             <div id="player-stats">
-                <span>LV 1</span>
-                <span>HP</span>
+                <span>LV 1 HP</span>
                 <div id="player-hp-bar-container">
                     <div id="player-hp-bar"></div>
                 </div>
                 <span id="player-hp-text">20 / 20</span>
             </div>
+            
             <div id="command-area">
-                <span id="attack-prompt" class="hidden">
-                    <span class="heart-icon">❤️</span> たたかう (Enterキー)
-                </span>
+                <div id="attack-prompt" class="hidden">❤ 攻撃 (Enterキー)</div>
             </div>
+            
+            <p class="instructions">移動: 矢印キー または W A S D <br> 決定/アクション: Space</p>
         </div>
-
-        <p class="instructions">移動: 矢印キー または W A S D <br> 攻撃: Enter</p>
     </div>
+
+    <audio id="bgm" src="bgm.mp3" loop></audio>
+
     <script src="script.js"></script>
 </body>
 </html>

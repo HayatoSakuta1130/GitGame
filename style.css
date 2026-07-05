@@ -20,7 +20,7 @@ body {
     width: 800px;
 }
 
-/* モンスターエリア */
+/* 繝｢繝ｳ繧ｹ繧ｿ繝ｼ繧ｨ繝ｪ繧｢ */
 #monster-area {
     display: flex;
     flex-direction: column;
@@ -29,59 +29,167 @@ body {
     position: relative;
 }
 
-#monster-sprite {
-    width: 100px;
-    height: 100px;
-    background-color: #fff;
+/* Composite Boss Styles */
+.composite-monster {
     position: relative;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    transition: transform 0.15s ease-in-out, background-color 0.1s;
+    width: 350px;
+    height: 350px; /* 螟ｧ縺阪￥縺励※霑ｫ蜉帙ｒ繧｢繝・・ */
+    top: 60px; /* Shift the monster down so it doesn't get cut off */
+    margin-bottom: 20px;
+    /* 蠕・ｩ滓凾縺ｮ蜈ｨ菴捺ｵｮ驕・*/
+    animation: comp-float 4s ease-in-out infinite;
+    transform-origin: bottom center;
 }
 
-#monster-sprite.wind-up {
-    transform: translateY(-20px) scale(0.95);
-}
-
-#monster-sprite.wind-up .monster-eye {
-    height: 5px;
-}
-
-#monster-sprite.attacking {
-    transform: scale(1.1) translateY(20px);
-    background-color: #ffcccc;
-}
-
-.monster-eye {
-    width: 20px;
-    height: 20px;
-    background-color: #000;
+.composite-monster .monster-part {
     position: absolute;
-    top: 20px;
-    transition: all 0.1s;
-}
-.monster-eye.left { left: 20px; }
-.monster-eye.right { right: 20px; }
-
-#monster-sprite.attacking .monster-eye {
-    height: 5px;
-    top: 25px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    top: 0;
+    left: 0;
+    transition: transform 0.2s;
 }
 
-.monster-mouth {
-    width: 60px;
-    height: 10px;
-    background-color: #000;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    transition: all 0.1s;
+@keyframes comp-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
 }
 
-#monster-sprite.attacking .monster-mouth {
-    height: 30px;
-    border-radius: 50%;
-    bottom: 10px;
+/* 蠕・ｩ溘い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ */
+.m-head {
+    transform-origin: 53% 36%;
+    animation: comp-breathe-head 4s ease-in-out infinite;
+}
+.m-body {
+    transform-origin: 50% 50%;
+    animation: comp-breathe-body 4s ease-in-out infinite;
+}
+.m-arm-left {
+    /* 蜑｣繧呈戟縺｣縺滓焔縲りか縺ｮ縺ゅ◆繧翫ｒ霆ｸ縺ｫ縺吶ｋ */
+    transform-origin: 70% 35%;
+    animation: comp-idle-arm-l 4s ease-in-out infinite;
+}
+.m-arm-right {
+    transform-origin: 56% 45%;
+    animation: comp-idle-arm-r 4s ease-in-out infinite;
+}
+.m-bottom {
+    transform-origin: 50% 60%;
+}
+.m-fire {
+    transform-origin: 50% 72%;
+    animation: comp-fire-flicker 0.1s infinite alternate;
+}
+
+@keyframes comp-breathe-head {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(2px) rotate(1deg); }
+}
+@keyframes comp-breathe-body {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.98) translateY(2px); }
+}
+@keyframes comp-idle-arm-l {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-2deg); }
+}
+@keyframes comp-idle-arm-r {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(2deg); }
+}
+@keyframes comp-fire-flicker {
+    0% { transform: scaleY(1) scaleX(1); opacity: 0.9; }
+    100% { transform: scaleY(1.1) scaleX(0.95); opacity: 1; }
+}
+
+/* 謌ｦ髣倥Δ繝ｼ繝・(謾ｻ謦・凾) */
+.composite-monster.combat-mode {
+    animation: comp-combat-shake 0.4s cubic-bezier(.36,.07,.19,.97) infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
+}
+
+.composite-monster.combat-mode .m-head {
+    animation: comp-combat-head 0.4s infinite alternate;
+}
+.composite-monster.combat-mode .m-arm-left {
+    /* 騾壼ｸｸ謾ｻ謦・凾縺ｮ繧ｹ繧､繝ｳ繧ｰ */
+    animation: comp-sword-swing 0.8s cubic-bezier(.36,.07,.19,.97) infinite alternate;
+}
+.composite-monster.combat-mode .m-body {
+    transform: scaleY(0.95) translateY(5px);
+    animation: none;
+}
+
+
+
+.composite-monster.gravity-strike .m-arm-left {
+    /* Instant strike */
+    animation: comp-strike-arm 0.3s cubic-bezier(0, 0.5, 0.5, 1) forwards;
+}
+.composite-monster.gravity-strike .m-head {
+    animation: comp-gravity-strike-head 0.4s forwards;
+}
+.composite-monster.gravity-strike .m-body {
+    animation: comp-gravity-strike-body 0.4s forwards;
+}
+
+.composite-monster.attacking-windup .m-arm-left {
+    /* Wind up before the strike */
+    animation: comp-windup-arm 0.5s cubic-bezier(0.5, 0, 1, 1) forwards;
+}
+@keyframes comp-windup-arm {
+    0% { transform: rotate(0deg) translateY(0px) translateX(0px); }
+    100% { transform: rotate(60deg) translateY(-20px) translateX(20px); }
+}
+
+@keyframes comp-strike-arm {
+    0% { transform: rotate(60deg) translateY(-20px) translateX(20px); }
+    40% { transform: rotate(-80deg) translateY(30px) translateX(-40px); } 
+    100% { transform: rotate(-80deg) translateY(30px) translateX(-40px); }
+}
+
+@keyframes comp-gravity-strike-head {
+    0% { transform: rotate(0deg) translateY(0px); }
+    30% { transform: rotate(50deg) translateY(10px); }
+    100% { transform: rotate(0deg) translateY(0px); }
+}
+
+@keyframes comp-gravity-strike-body {
+    0% { transform: translateY(0px); }
+    30% { transform: translateY(20px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes comp-combat-shake {
+    0% { transform: translate(2px, 2px) rotate(0deg); }
+    25% { transform: translate(-2px, -1px) rotate(-1deg); }
+    50% { transform: translate(0px, 3px) rotate(1deg); }
+    75% { transform: translate(1px, -2px) rotate(0deg); }
+    100% { transform: translate(2px, 2px) rotate(0deg); }
+}
+@keyframes comp-combat-head {
+    0% { transform: rotate(5deg) scale(1.05); }
+    100% { transform: rotate(8deg) scale(1.05); }
+}
+@keyframes comp-sword-swing {
+    0% { transform: rotate(-5deg) translateY(-5px); }
+    100% { transform: rotate(-35deg) translateY(10px) translateX(-10px); }
+}
+
+.composite-monster.attacking {
+    /* ベースは削除または維持しますが、腕のアニメーションを優先します */
+    transform: translateY(20px) scale(1.1);
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 1));
+}
+.composite-monster.attacking .m-arm-left {
+    animation: comp-strike-arm 0.3s cubic-bezier(0, 0.5, 0.5, 1) forwards;
+}
+.composite-monster.attacking .m-head {
+    animation: comp-gravity-strike-head 0.4s forwards;
+}
+.composite-monster.attacking .m-body {
+    animation: comp-gravity-strike-body 0.4s forwards;
 }
 
 #monster-hp-bar-container {
@@ -101,7 +209,7 @@ body {
 
 #warning-mark {
     position: absolute;
-    top: 5px; /* モンスターの少し上に調整 */
+    top: 5px;
     z-index: 100;
     font-size: 3rem;
     color: red;
@@ -110,13 +218,24 @@ body {
     animation: bounce 0.3s infinite alternate;
 }
 
+#blue-warning-mark {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #0000ff;
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px #0000ff;
+}
+
 @keyframes bounce {
     from { transform: translateY(0); }
     to { transform: translateY(-10px); }
 }
 
-#warning-mark.hidden {
-    display: none;
+#warning-mark.hidden, #blue-warning-mark.hidden {
+    display: none !important;
 }
 
 #monster-name {
@@ -125,7 +244,7 @@ body {
     letter-spacing: 2px;
 }
 
-/* バトルコンテナ (キャンバス) */
+/* 繝舌ヨ繝ｫ繧ｳ繝ｳ繝・リ */
 #battle-container {
     position: relative;
     margin-bottom: 20px;
@@ -139,13 +258,13 @@ canvas {
 #status-text {
     position: absolute;
     top: 20px;
-    left: 120px; /* キャンバス内の描画ボックス付近に配置 */
+    left: 120px;
     font-size: 1.2rem;
     display: none;
     pointer-events: none;
 }
 
-/* ゲームオーバー・クリア画面 */
+/* 繧ｲ繝ｼ繝�繧ｪ繝ｼ繝舌・逕ｻ髱｢ */
 #game-over {
     position: absolute;
     top: 0;
@@ -173,7 +292,7 @@ canvas {
     display: none;
 }
 
-/* UIエリア */
+/* UI繧ｨ繝ｪ繧｢ */
 #ui-area {
     display: flex;
     flex-direction: column;
@@ -203,7 +322,7 @@ canvas {
     transition: width 0.2s;
 }
 
-/* コマンド */
+/* 繧ｳ繝槭Φ繝峨お繝ｪ繧｢ */
 #command-area {
     display: flex;
     gap: 20px;
