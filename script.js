@@ -215,6 +215,19 @@ window.addEventListener('keydown', (e) => {
     }
     if (e.code === 'Enter' && gameState === 'PLAYER_TURN') {
         performAttack();
+    } else if ((e.code === 'Enter' || e.code === 'Space') && gameState === 'MONSTER_TALKING') {
+        const textEl = document.getElementById('monster-speech-text');
+        if (isTyping) {
+            // 文字送りをスキップして全表示
+            clearInterval(typeInterval);
+            isTyping = false;
+            textEl.textContent = currentFullText;
+            if (talkAutoAdvanceTimer) clearTimeout(talkAutoAdvanceTimer);
+            talkAutoAdvanceTimer = setTimeout(finishDialogue, 2000);
+        } else {
+            // 既に全表示されているなら次に進む
+            finishDialogue();
+        }
     }
 });
 
@@ -233,7 +246,89 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
+
+// モンスターセリフ機能
+let talkAudioContext = null;
+let isTyping = false;
+let typeInterval = null;
+let currentFullText = '';
+let talkAutoAdvanceTimer = null;
+
+function playTalkBeep() {
+    if (!talkAudioContext) {
+        talkAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (talkAudioContext.state === 'suspended') {
+        talkAudioContext.resume();
+    }
+    const osc = talkAudioContext.createOscillator();
+    const gain = talkAudioContext.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(400, talkAudioContext.currentTime); // 400Hz (ピポポポ)
+    gain.gain.setValueAtTime(0.05, talkAudioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, talkAudioContext.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(talkAudioContext.destination);
+    osc.start();
+    osc.stop(talkAudioContext.currentTime + 0.05);
+}
+
+const dialogueTexts = {
+    2: 'ジューリョク ハンテン シークエンス 起動。 W または ↑キー ト S または ↓キー デ 上下 ニ 回避 セヨ。',
+    3: '青色 追尾兵器 展開。 キーボード カラ 手 ヲ 離シ、 一切 動クナ。',
+    4: '赤色 弾幕 展開。 矢印キー デ 弾ノ方向ヘ シールド ヲ 構エテ 防ゲ。',
+    5: '高密度 弾幕 接近。 矢印キー デ シールド ノ 向キ ヲ 素早ク 切リ替エテ 防御 セヨ。',
+    6: '左方 障害物 接近。 Spaceキー ヲ 押シテ ジャンプ デ 飛ビ越エロ。',
+    7: '左右 障害物 接近。 Spaceキー ノ ジャンプ ト、 A・Dキー ノ 移動 ヲ 駆使シテ 回避 セヨ。',
+    8: 'オレンジ色 兵器 展開。 W A S D キー デ 絶エズ 動キ 続ケロ。 停止 スレバ ダメージ ヲ 受ケル。',
+    9: 'レーザー 軌道 予測 完了。 赤イ 警告線 カラ W A S D キー デ スグニ 退避 セヨ。',
+    10: '直線 ルート 展開。 点滅 エリア ガ 光ル前ニ W A S D キー デ 移動 セヨ。',
+    11: '最終 殲滅 モード 起動。 全テ ノ キー ヲ 駆使 シテ 生キ残レ。'
+};
+
+function startMonsterDialogue() {
+    gameState = 'MONSTER_TALKING';
+    const bubble = document.getElementById('monster-speech-bubble');
+    const textEl = document.getElementById('monster-speech-text');
+    bubble.classList.remove('hidden');
+    textEl.textContent = '';
+    
+    // 次のパターンを予測
+    const patterns = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    const nextPattern = patterns[(turnCount) % patterns.length];
+    currentFullText = dialogueTexts[nextPattern] || 'エラー：セリフデータ ガ 存在 シナイ。';
+    
+    isTyping = true;
+    let charIndex = 0;
+    
+    if (typeInterval) clearInterval(typeInterval);
+    if (talkAutoAdvanceTimer) clearTimeout(talkAutoAdvanceTimer);
+    
+    typeInterval = setInterval(() => {
+        textEl.textContent += currentFullText.charAt(charIndex);
+        if (currentFullText.charAt(charIndex) !== ' ' && currentFullText.charAt(charIndex) !== '。' && currentFullText.charAt(charIndex) !== '、') {
+            playTalkBeep();
+        }
+        charIndex++;
+        if (charIndex >= currentFullText.length) {
+            clearInterval(typeInterval);
+            isTyping = false;
+            // タイピング終了後、2秒経過で自動進行
+            talkAutoAdvanceTimer = setTimeout(finishDialogue, 2000);
+        }
+    }, 50); // 50msごとに1文字
+}
+
+function finishDialogue() {
+    const bubble = document.getElementById('monster-speech-bubble');
+    bubble.classList.add('hidden');
+    if (typeInterval) clearInterval(typeInterval);
+    if (talkAutoAdvanceTimer) clearTimeout(talkAutoAdvanceTimer);
+    startEnemyTurn();
+}
+
 function performAttack() {
+
     // 謾ｻ謦・鴨繧定ｪｿ謨ｴ (20縲・0繝繝｡繝ｼ繧ｸ)
         const damage = Math.floor(Math.random() * 11) + 20;
     monsterHp -= damage;
@@ -242,7 +337,7 @@ function performAttack() {
     if (monsterHp === 0) {
         setGameOver(true);
     } else {
-        startEnemyTurn();
+        startMonsterDialogue();
     }
 }
 

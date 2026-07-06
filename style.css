@@ -365,3 +365,46 @@ canvas {
     text-align: right;
     line-height: 1.4;
 }
+
+
+/* Monster Speech Bubble (Undertale style) */
+#monster-speech-bubble {
+    position: absolute;
+    top: 0px;
+    right: -250px;
+    width: 250px;
+    background-color: white;
+    border: 4px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 18px;
+    color: black;
+    z-index: 100;
+    text-align: left;
+    min-height: 80px;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+#monster-speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -16px;
+    border-width: 8px 16px 8px 0;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+#monster-speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: -10px;
+    border-width: 6px 12px 6px 0;
+    border-style: solid;
+    border-color: transparent white transparent transparent;
+}
+
+#monster-speech-text {
+    line-height: 1.5;
+}
