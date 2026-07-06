@@ -1,9 +1,32 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+const bgm = new Audio('Robot_Sound.mp3');
+bgm.loop = true;
+bgm.volume = 0.4; // BGMの音量を少し下げる
+
+const damageSE = new Audio('SE/undertale-damage-taken.mp3');
+damageSE.volume = 0.8; // 効果音は少し大きめに
+
+const parrySE = new Audio('SE/bone-undertale-sound-effect.mp3');
+parrySE.volume = 0.8;
+
+const parrySuccessSE = new Audio('SE/undertale-ding.mp3');
+parrySuccessSE.volume = 0.8;
+
+const crossAttackSE = new Audio('SE/undertale-slash-attack.mp3');
+crossAttackSE.volume = 0.8;
+
+// BGM autoplay workaround
+window.addEventListener('keydown', () => {
+    if (bgm.paused && gameState !== 'GAME_OVER' && gameState !== 'VICTORY') {
+        bgm.play().catch(e => console.log(e));
+    }
+});
+
 // UI Elements
 const gameOverScreen = document.getElementById('game-over');
-const endMessage = document.getElementById('end-message');
+const endMessage = document.getElementById('game-over-text');
 const statusText = document.getElementById('status-text');
 const attackPrompt = document.getElementById('attack-prompt');
 const monsterHpBar = document.getElementById('monster-hp-bar');
@@ -171,6 +194,8 @@ window.addEventListener('keydown', (e) => {
             // 繝代ち繝ｼ繝ｳ3,4,5縺ｯ繝代Μ繧｣蜿ｯ閭ｽ
 
         if (player.parryCooldown <= 0) {
+                parrySE.currentTime = 0;
+                parrySE.play().catch(e => console.log("SE play failed:", e));
                 player.parryFrames = 30;
                 player.parryCooldown = 30;
                 shockwaves.push({ x: player.x, y: player.y, radius: player.size, alpha: 1.0 });
@@ -218,6 +243,8 @@ function performAttack() {
 }
 
 function initGame() {
+    bgm.currentTime = 0;
+    bgm.play().catch(e => console.log("BGM play failed:", e));
     playerHp = MAX_PLAYER_HP;
     monsterHp = MAX_MONSTER_HP;
     turnCount = 0;
@@ -292,11 +319,15 @@ function startEnemyTurn() {
         box.targetW = 500; box.targetH = 250; // 邂ｱ繧偵＆繧峨↓讓ｪ髟ｷ縺ｫ
 
         player.color = '#ff9900'; // 繧ｪ繝ｬ繝ｳ繧ｸ
+        parrySuccessSE.currentTime = 0;
+        parrySuccessSE.play().catch(e => console.log("SE play failed:", e));
 
             } else if (currentAttackType === 8) {
         box.targetW = 250; box.targetH = 450; // 邵ｦ髟ｷ
 
         player.color = '#0000ff'; // 髱・
+        parrySuccessSE.currentTime = 0;
+        parrySuccessSE.play().catch(e => console.log("SE play failed:", e));
 
         player.gravity = 0; // 辟｡驥榊鴨
 
@@ -474,6 +505,8 @@ function startPlayerTurn() {
 }
 
 function setGameOver(isVictory) {
+    bgm.pause();
+    bgm.currentTime = 0;
     gameState = isVictory ? 'VICTORY' : 'GAME_OVER';
     clearTimeout(turnTimer);
     bullets = [];
@@ -656,6 +689,9 @@ function drawBox() {
 
 function takeDamage() {
     if (iFrames <= 0) {
+        damageSE.currentTime = 0;
+        damageSE.play().catch(e => console.log("SE play failed:", e));
+        
         playerHp -= 4;
         if (playerHp < 0) playerHp = 0;
         iFrames = I_FRAME_DURATION;
@@ -1210,10 +1246,12 @@ function triggerAoEFlash() {
     document.getElementById('monster-sprite').classList.remove('attacking-windup');
       document.getElementById('monster-sprite').classList.add('attacking');
     
-    // 繝代Μ繧｣蛻､螳・
-
-        if (player.parryFrames <= 0) {
+    // パリィ判定
+    if (player.parryFrames <= 0) {
         takeDamage();
+    } else {
+        parrySuccessSE.currentTime = 0;
+        parrySuccessSE.play().catch(e => console.log("SE play failed:", e));
     }
     
     aoeAttacksDone++;
@@ -1365,6 +1403,8 @@ function manageAttackPattern7() {
         document.getElementById('monster-sprite').classList.add('gravity-strike');
         
         player.color = '#0000ff';
+        parrySuccessSE.currentTime = 0;
+        parrySuccessSE.play().catch(e => console.log("SE play failed:", e));
         gravityDir = -1;
         player.gravity = 0.2; // 繝輔Ρ繝・→縺輔○繧・
 
@@ -1622,9 +1662,12 @@ function manageAttackPattern11() {
         });
     }
 
-    // 390繝輔Ξ繝ｼ繝�: 蜊∝ｭ励ン繝ｼ繝�逋ｺ蟆・→蜷梧凾縺ｫ邂ｱ縺・縺､縺ｫ蛻・｣・
+    // 390繝輔Ξ繝ｼ繝: 蜊∝ｭ励ン繝ｼ繝逋ｺ蟆・→蜷梧凾縺ｫ邂ｱ縺・縺､縺ｫ蛻・｣・
 
         if (p11Timer === 390) {
+        crossAttackSE.currentTime = 0;
+        crossAttackSE.play().catch(e => console.log("SE play failed:", e));
+        
         const gap = 40;
         const subW = (box.targetW - gap) / 2;
         const subH = (box.targetH - gap) / 2;
@@ -1777,7 +1820,9 @@ function updateBullets() {
             const distToCenter = Math.hypot(b.x - box.x, b.y - box.y);
             if (distToCenter < 15) {
                 if (player.shieldDir === b.dir) {
-                    bullets.splice(i, 1); // 髦ｲ蠕｡謌仙粥
+                    parrySuccessSE.currentTime = 0;
+                    parrySuccessSE.play().catch(e => console.log("SE play failed:", e));
+                    bullets.splice(i, 1); // 防御成功
 
             } else {
                     bullets.splice(i, 1); // 陲ｫ蠑ｾ
@@ -2166,7 +2211,8 @@ function checkCollision() {
             if (Math.abs(distY) < player.size) {
                 if (player.color !== '#ff9900') {
                     player.color = '#ff9900'; // 繧ｪ繝ｬ繝ｳ繧ｸ蛹厄ｼ・
-
+                    parrySuccessSE.currentTime = 0;
+                    parrySuccessSE.play().catch(e => console.log("SE play failed:", e));
             }
             }
             continue;
