@@ -111,7 +111,6 @@ body {
 /* 謌ｦ髣倥Δ繝ｼ繝・(謾ｻ謦・凾) */
 .composite-monster.combat-mode {
     animation: comp-combat-shake 0.4s cubic-bezier(.36,.07,.19,.97) infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
 }
 
 .composite-monster.combat-mode .m-head {
@@ -185,7 +184,6 @@ body {
 .composite-monster.attacking {
     /* ベースは削除または維持しますが、腕のアニメーションを優先します */
     transform: translateY(20px) scale(1.1);
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 1));
 }
 .composite-monster.attacking .m-arm-left {
     animation: comp-strike-arm 0.3s cubic-bezier(0, 0.5, 0.5, 1) forwards;
