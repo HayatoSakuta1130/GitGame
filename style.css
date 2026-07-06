@@ -300,9 +300,12 @@ canvas {
 /* UI繧ｨ繝ｪ繧｢ */
 #ui-area {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 600px;
+    position: relative;
+    padding-top: 10px;
 }
 
 #player-stats {
@@ -310,7 +313,7 @@ canvas {
     align-items: center;
     gap: 15px;
     font-size: 1.2rem;
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 #player-hp-bar-container {
@@ -327,10 +330,13 @@ canvas {
     transition: width 0.2s;
 }
 
-/* 繧ｳ繝槭Φ繝峨お繝ｪ繧｢ */
+/* コマンドエリア */
 #command-area {
-    display: flex;
-    gap: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -50px;
+    z-index: 20;
 }
 
 #attack-prompt {
@@ -340,6 +346,10 @@ canvas {
     display: flex;
     align-items: center;
     gap: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid #ff9900;
     animation: blink 1s infinite;
 }
 
@@ -353,7 +363,9 @@ canvas {
 }
 
 .instructions {
-    margin-top: 30px;
-    color: #666;
-    font-size: 0.9rem;
+    margin-top: 0;
+    color: #888;
+    font-size: 0.85rem;
+    text-align: right;
+    line-height: 1.4;
 }
