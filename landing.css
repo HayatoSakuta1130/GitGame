@@ -1,0 +1,193 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: radial-gradient(circle at bottom, #110022 0%, #000000 100%);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Background Stars Animation */
+@keyframes animStar {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-2000px); }
+}
+
+.stars, .stars2, .stars3 {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    background: transparent;
+}
+
+/* Base box-shadow used for simple stars */
+.stars {
+    width: 1px; height: 1px;
+    background: transparent;
+    box-shadow: 10vw 20vh #FFF, 40vw 60vh #FFF, 80vw 10vh #FFF, 20vw 80vh #FFF, 50vw 30vh #FFF, 90vw 90vh #FFF, 15vw 40vh #FFF, 75vw 70vh #FFF;
+    animation: animStar 50s linear infinite;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    overflow: hidden;
+}
+
+.hero-content {
+    text-align: center;
+    padding: 40px;
+    background: rgba(20, 0, 30, 0.4);
+    border: 1px solid rgba(255, 0, 85, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(255, 0, 85, 0.2), inset 0 0 20px rgba(0, 204, 255, 0.1);
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    background: rgba(0, 204, 255, 0.2);
+    color: #00ccff;
+    font-size: 0.9em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0, 204, 255, 0.4);
+}
+
+.hero-title {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 5rem;
+    margin: 0;
+    background: linear-gradient(135deg, #ff0055, #00ccff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+    letter-spacing: 5px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin: 20px 0 40px;
+    letter-spacing: 1px;
+}
+
+.play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(45deg, #ff0055, #ff00aa);
+    border-radius: 30px;
+    box-shadow: 0 10px 20px rgba(255, 0, 85, 0.4);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.play-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.play-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 0, 85, 0.6), 0 0 20px rgba(0, 204, 255, 0.4);
+}
+
+.play-btn:hover::before {
+    left: 100%;
+}
+
+.features {
+    padding: 100px 20px;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8));
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 60px;
+    color: #fff;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s, background 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.icon-container {
+    width: 60px; height: 60px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 0 20px currentColor;
+}
+
+.icon-container.blue { color: #0088ff; background: rgba(0, 136, 255, 0.2); }
+.icon-container.lightblue { color: #00ffff; background: rgba(0, 255, 255, 0.2); }
+.icon-container.green { color: #00ff00; background: rgba(0, 255, 0, 0.2); }
+.icon-container.red { color: #ff0055; background: rgba(255, 0, 85, 0.2); }
+
+.feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.feature-card p {
+    color: #aaa;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    background: #000;
+}

@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ハート避けゲーム</title>
-    <link rel="stylesheet" href="style.css">
+    <title>GitGame - ハート避けアクション</title>
+    <link rel="stylesheet" href="landing.css">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="site-header">
-        <h1>ハート避けゲーム</h1>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">V1.0 NOW LIVE</div>
+            <h1 class="hero-title">HEART EVASION</h1>
+            <p class="hero-subtitle">絶望の弾幕をくぐり抜け、反撃のチャンスを掴め。</p>
+            <a href="game.html" class="play-btn">
+                <span class="btn-text">PLAY NOW</span>
+                <span class="btn-icon">▶</span>
+            </a>
+        </div>
     </header>
-    <main class="website-wrapper">
-        <div id="game-container">
-        
-        <div id="monster-area">
-            <div id="monster-sprite" class="composite-monster">
-                <img class="monster-part m-fire" src="Boss_Machine/boss_BottomFire.png" alt="fire">
-                <img class="monster-part m-bottom" src="Boss_Machine/boss_Bottom.png" alt="bottom">
-                <img class="monster-part m-arm-right" src="Boss_Machine/boss_RightHand.png" alt="right arm">
-                <img class="monster-part m-arm-left" src="Boss_Machine/boss_LeftHand.png" alt="left arm">
-                <img class="monster-part m-body" src="Boss_Machine/boss_Body.png" alt="body">
-                <img class="monster-part m-head" src="Boss_Machine/boss_Head.png" alt="head">
-            </div>
-            
-            <div id="monster-hp-bar-container">
-                <div id="monster-hp-bar"></div>
-            </div>
-        </div>
 
-        <div id="battle-container">
-            <canvas id="gameCanvas" width="600" height="400"></canvas>
-            
-            <div id="status-text" class="hidden"></div>
-            
-            <div id="game-over" class="hidden">
-                <h2 id="game-over-text">GAME OVER</h2>
-                <p>Spaceキーを押してリトライ</p>
-            </div>
-            
-            <div id="warning-mark" class="hidden">!</div>
-            <div id="blue-warning-mark" class="hidden">!</div>
-        </div>
-
-        <div id="ui-area">
-            <div id="player-stats">
-                <span>LV 1 HP</span>
-                <div id="player-hp-bar-container">
-                    <div id="player-hp-bar"></div>
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">SYSTEM</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon-container blue">
+                        <span class="icon">💙</span>
+                    </div>
+                    <h3>JUMP (青ハート)</h3>
+                    <p>重力に従って床に落下。Spaceキーでジャンプして敵の攻撃を飛び越えろ。</p>
                 </div>
-                <span id="player-hp-text">20 / 20</span>
+                <div class="feature-card">
+                    <div class="icon-container lightblue">
+                        <span class="icon">💠</span>
+                    </div>
+                    <h3>PARRY (水色ハート)</h3>
+                    <p>敵の弾が当たる瞬間にSpaceキー！パリィを成功させてダメージを無効化せよ。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-container green">
+                        <span class="icon">💚</span>
+                    </div>
+                    <h3>SHIELD (緑ハート)</h3>
+                    <p>四方から迫る攻撃に対し、Spaceキーでシールドを構えて弾け。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-container red">
+                        <span class="icon">❤</span>
+                    </div>
+                    <h3>ATTACK (赤ハート)</h3>
+                    <p>自由移動で敵の猛攻を凌ぎ切り、Enterキーで反撃の一撃を叩き込め。</p>
+                </div>
             </div>
-            
-            <div id="command-area">
-                <div id="attack-prompt" class="hidden">❤ 攻撃 (Enterキー)</div>
-            </div>
-            
-            <p class="instructions">移動: 矢印キー または W A S D <br> 決定/アクション: SPACE＝ジャンプ or その他コマンド</p>
         </div>
-        </div>
-    </main>
+    </section>
+
     <footer class="site-footer">
         <p>&copy; 2026 HayatoSakuta1130 - Made with Git</p>
     </footer>
-    <audio id="bgm" src="bgm.mp3" loop></audio>
 
-    <script src="script.js"></script>
+    <script>
+        // Simple parallax effect for hero content
+        document.addEventListener('mousemove', (e) => {
+            const heroContent = document.querySelector('.hero-content');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+            heroContent.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
 </body>
 </html>
