@@ -223,7 +223,7 @@ window.addEventListener('keydown', (e) => {
             isTyping = false;
             textEl.textContent = currentFullText;
             if (talkAutoAdvanceTimer) clearTimeout(talkAutoAdvanceTimer);
-            talkAutoAdvanceTimer = setTimeout(finishDialogue, 2000);
+            talkAutoAdvanceTimer = setTimeout(finishDialogue, 8000);
         } else {
             // 既に全表示されているなら次に進む
             finishDialogue();
@@ -274,7 +274,7 @@ function playTalkBeep() {
 }
 
 const dialogueTexts = {
-    2: 'ジューリョク ハンテン シークエンス 起動。 W または ↑キー ト S または ↓キー デ 上下 ニ 回避 セヨ。',
+    2: '青ハ 動クナ　オレンジ ハ動ケ　W A S Dデ　ヨケヤガレ',
     3: '青色 追尾兵器 展開。 キーボード カラ 手 ヲ 離シ、 一切 動クナ。',
     4: '赤色 弾幕 展開。 矢印キー デ 弾ノ方向ヘ シールド ヲ 構エテ 防ゲ。',
     5: '高密度 弾幕 接近。 矢印キー デ シールド ノ 向キ ヲ 素早ク 切リ替エテ 防御 セヨ。',
@@ -314,7 +314,7 @@ function startMonsterDialogue() {
             clearInterval(typeInterval);
             isTyping = false;
             // タイピング終了後、2秒経過で自動進行
-            talkAutoAdvanceTimer = setTimeout(finishDialogue, 2000);
+            talkAutoAdvanceTimer = setTimeout(finishDialogue, 8000);
         }
     }, 50); // 50msごとに1文字
 }
