@@ -2131,25 +2131,15 @@ function drawBullets() {
             const bh = b.h || (b.size * 2) || 10;
             ctx.fillRect(b.x - bw / 2, b.y - bh / 2, bw, bh);
         } else {
-            ctx.beginPath();
-            const radius = (b.w !== undefined) ? b.w / 2 : (b.size || 5);
-            ctx.arc(b.x, b.y, radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.closePath();
+            const s = (b.w !== undefined) ? b.w : (b.size ? b.size * 2 : 10);
+            ctx.fillRect(b.x - s/2, b.y - s/2, s, s);
         }
     }
     
-    // 繝励Ξ繧､繝､繝ｼ縺ｮ蠑ｾ謠冗判
-
     for (const pb of playerBullets) {
         ctx.fillStyle = pb.color;
-        ctx.beginPath();
-        // 縺｡繧・▲縺ｨ邏ｰ髟ｷ縺・･募・蠖｢縺｣縺ｽ縺乗緒逕ｻ
-
-        ctx.ellipse(pb.x, pb.y, pb.w / 2, pb.h / 2, 0, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillRect(pb.x - pb.w/2, pb.y - pb.h/2, pb.w, pb.h);
     }
-    
     // 蟾ｦ縺ｮ鬪ｨ螢・(繝代ち繝ｼ繝ｳ6, 7逕ｨ)
         if (gameState === 'ENEMY_TURN' && (currentAttackType === 6 || currentAttackType === 7)) {
         ctx.fillStyle = '#ffffff';
