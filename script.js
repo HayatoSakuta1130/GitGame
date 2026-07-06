@@ -1755,6 +1755,8 @@ function manageAttackPattern11() {
 
 // ==================== 譖ｴ譁ｰ繝ｻ謠冗判 ====================
 function updateBullets() {
+    const solidWalls = bullets.filter(b => b.isSolidBlock);
+
     let minDist = Infinity;
     let closestBullet = null;
 
@@ -1900,8 +1902,8 @@ function updateBullets() {
         if (b.isMovingDestructible || b.isBouncing) {
                 let hitWall = false;
                 if (!b.ignoreWalls) {
-                    for (const wall of bullets) {
-                        if (wall.isSolidBlock && wall !== b) {
+                    for (const wall of solidWalls) {
+                        if (wall !== b) {
                             if (Math.abs(b.x - wall.x) < (b.w/2 + wall.w/2) &&
                                 Math.abs(b.y - wall.y) < (b.h/2 + wall.h/2)) {
                                 hitWall = true;
