@@ -111,11 +111,12 @@ body {
 }
 
 .composite-monster.combat-mode .m-head {
-    animation: comp-combat-head 0.4s infinite alternate;
+    /* 激しすぎるので0.4sから1.5sに遅くしてラグを抑える */
+    animation: comp-combat-head 1.5s infinite alternate;
 }
 .composite-monster.combat-mode .m-arm-left {
-    /* 騾壼ｸｸ謾ｻ謦・凾縺ｮ繧ｹ繧､繝ｳ繧ｰ */
-    animation: comp-sword-swing 0.8s cubic-bezier(.36,.07,.19,.97) infinite alternate;
+    /* 通常攻撃時のスイング。激しすぎるので0.8sから2.5sに遅くする */
+    animation: comp-sword-swing 2.5s cubic-bezier(.36,.07,.19,.97) infinite alternate;
 }
 .composite-monster.combat-mode .m-body {
     transform: scaleY(0.95) translateY(5px);
