@@ -84,33 +84,30 @@ body {
 }
 .m-fire {
     transform-origin: 50% 72%;
-    animation: comp-fire-flicker 0.1s infinite alternate;
+    /* animation: comp-fire-flicker 0.1s infinite alternate; */
 }
 
 @keyframes comp-breathe-head {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(2px) rotate(1deg); }
-}
-@keyframes comp-breathe-body {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.98) translateY(2px); }
-}
-@keyframes comp-idle-arm-l {
     0%, 100% { transform: rotate(0deg); }
     50% { transform: rotate(-2deg); }
 }
+@keyframes comp-breathe-body {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.02); }
+}
+@keyframes comp-idle-arm-l {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(3deg); }
+}
 @keyframes comp-idle-arm-r {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(2deg); }
-}
-@keyframes comp-fire-flicker {
-    0% { transform: scaleY(1) scaleX(1); opacity: 0.9; }
-    100% { transform: scaleY(1.1) scaleX(0.95); opacity: 1; }
+    50% { transform: rotate(-3deg); }
 }
 
 /* 謌ｦ髣倥Δ繝ｼ繝・(謾ｻ謦・凾) */
 .composite-monster.combat-mode {
-    animation: comp-combat-shake 0.4s cubic-bezier(.36,.07,.19,.97) infinite;
+    /* 蜈ｨ菴薙・轣€繧後・繝ｩ繧ｰ縺ｮ蜴溷屏縺ｫ縺ｪ繧九◆繧∫┌蜉ｹ蛹・*/
+    /* animation: comp-combat-shake 0.4s cubic-bezier(.36,.07,.19,.97) infinite; */
 }
 
 .composite-monster.combat-mode .m-head {
