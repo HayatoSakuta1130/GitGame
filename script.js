@@ -184,9 +184,13 @@ const keys = {
 
 // Event listeners for keys
 window.addEventListener('keydown', (e) => {
+    // Prevent default scrolling for game keys
+    if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+        e.preventDefault();
+    }
+
     if (keys.hasOwnProperty(e.key)) keys[e.key] = true;
     if (e.code === 'Space') keys.Space = true;
-    
     if (e.code === 'Space') {
         if (gameState === 'GAME_OVER' || gameState === 'VICTORY') {
             initGame();
