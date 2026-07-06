@@ -5,38 +5,14 @@ body {
     color: #fff;
     font-family: 'Inter', 'DotGothic16', sans-serif;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    user-select: none;
-    overflow: hidden; /* 防止スクロール */
-}
-
-.site-header {
-    text-align: center;
-    padding: 10px 0;
-    width: 100%;
-    background: rgba(25, 25, 35, 0.9);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    margin-bottom: 10px;
-}
-.site-header h1 {
-    margin: 0;
-    font-size: 2.5em;
-    font-family: 'DotGothic16', sans-serif;
-    letter-spacing: 3px;
-    background: linear-gradient(90deg, #ff0055, #00ccff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.website-wrapper {
-    flex: 1;
-    display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    user-select: none;
 }
+
 
 #game-container {
     display: flex;
@@ -47,14 +23,6 @@ body {
     padding: 15px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.site-footer {
-    padding: 5px;
-    text-align: center;
-    font-size: 0.8em;
-    color: #888;
-    width: 100%;
 }
 
 /* 繝｢繝ｳ繧ｹ繧ｿ繝ｼ繧ｨ繝ｪ繧｢ */
